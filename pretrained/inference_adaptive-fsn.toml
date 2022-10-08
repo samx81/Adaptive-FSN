@@ -1,0 +1,43 @@
+[acoustics]
+n_fft = 512
+win_length = 512
+sr = 16000
+hop_length = 256
+
+[inferencer]
+path = "fullsubnet_plus.inferencer.inferencer.Inferencer"
+type = "mag_complex_full_band_crm_mask"
+
+[dataset]
+path = "fullsubnet.dataset.dataset_inference.Dataset"
+
+[model]
+path = "fullsubnet_plus.model.fullsubnet_plus.FullSubNet_Adaptive"
+
+[inferencer.args]
+n_neighbor = 15
+
+[dataset.args]
+dataset_dir_list = [ "data/VoiceBank/noisy_testset_wav_16k/",]
+sr = 16000
+
+[model.args]
+sb_num_neighbors = 15
+fb_num_neighbors = 0
+num_freqs = 257
+look_ahead = 2
+sequence_model = "Conformer"
+fb_output_activate_function = "ReLU"
+sb_output_activate_function = false
+channel_attention_model = "TSSE"
+fb_model_hidden_size = 512
+sb_model_hidden_size = 384
+weight_init = false
+norm_type = "offline_laplace_norm"
+num_groups_in_drop_band = 2
+kersize = [ 3, 5, 10,]
+subband_num = 1
+subband_num_freq = 129
+subband_kernel = 16
+subband_stride = 8
+subband_depth = 2
