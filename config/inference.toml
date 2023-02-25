@@ -16,11 +16,7 @@ n_neighbor = 15
 [dataset]
 path = "fullsubnet.dataset.dataset_inference.Dataset"
 [dataset.args]
-dataset_dir_list = [
-    # "/share/corpus/delta_meet/2021-toNTNU/data-TMF-aoi-02-LOB3/wav/"
-    #"/workspace/project-nas-11025-sh/speech_enhance/data/DNS-Challenge/DNS-Challenge-interspeech2020-master/datasets/test_set/synthetic/with_reverb/noisy"
-    # "/workspace/project-nas-11025-sh/speech_enhance/data/DNS-Challenge/DNS-Challenge-interspeech2020-master/datasets/test_set/synthetic/no_reverb/noisy"
-]
+dataset_dir_list = []
 sr = 16000
 
 

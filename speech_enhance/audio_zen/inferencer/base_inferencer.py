@@ -20,24 +20,24 @@ from utils.logger import log
 print=log
 
 class BaseInferencer:
-    def __init__(self, config, checkpoint_path, output_dir):
+    def __init__(self, config, checkpoint_path, output_dir, file_mode=False):
         checkpoint_path = Path(checkpoint_path).expanduser().absolute()
         root_dir = Path(output_dir).expanduser().absolute()
         self.device = prepare_device(torch.cuda.device_count())
 
-        print("Loading inference dataset...")
-        self.dataloader = self._load_dataloader(config["dataset"])
         print("Loading model...")
-
         self.model, epoch = self._load_model(config["model"], checkpoint_path, self.device)
-        # self.model = self._load_model(config["model"], checkpoint_path, self.device)
-        # epoch = 64
         print(self.model)
 
-        self.inference_config = config["inferencer"]
 
-        self.enhanced_dir = root_dir / f"enhanced_{str(epoch).zfill(4)}"
-        prepare_empty_dir([self.enhanced_dir])
+        if not file_mode:
+            print("Loading inference dataset...")
+            self.dataloader = self._load_dataloader(config["dataset"])
+            self.enhanced_dir = root_dir / f"enhanced_{str(epoch).zfill(4)}"
+            prepare_empty_dir([self.enhanced_dir])
+
+        
+        self.inference_config = config["inferencer"]
 
         # Acoustics
         self.acoustic_config = config["acoustics"]
@@ -57,8 +57,8 @@ class BaseInferencer:
 
         print("Configurations are as follows: ")
         print(toml.dumps(config))
-        with open((root_dir / f"{time.strftime('%Y-%m-%d %H:%M:%S')}.toml").as_posix(), "w") as handle:
-            toml.dump(config, handle)
+        # with open((root_dir / f"{time.strftime('%Y-%m-%d %H:%M:%S')}.toml").as_posix(), "w") as handle:
+        #     toml.dump(config, handle)
 
     @staticmethod
     def _load_dataloader(dataset_config):
