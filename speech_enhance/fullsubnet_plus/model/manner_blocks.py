@@ -250,7 +250,6 @@ class Transpose(nn.Module):
     def forward(self, x):
         return x.transpose(self.p1, self.p2)
 
-
 class ResConBlock(nn.Module):
     """
     Residual Conformer block.
@@ -385,7 +384,6 @@ class Expendable_ResConBlock(nn.Module):
         out = F.relu(out)
         
         return out
-
 
 class BasicConv2d(nn.Module):
     def __init__(self, in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, relu=True, bn=True, bias=False):
@@ -956,7 +954,6 @@ class Encoder2D_submain_causal(nn.Module):
 
         return x
         
-
 class SubbandEncoder(nn.Module):
   
     def __init__(self, fullband_channel, subband_channel, kernel_size, stride, depth, head):
@@ -1010,45 +1007,6 @@ class SubbandEncoder_submain(nn.Module):
             kernel_size, stride = kernel_size // 4,  stride// 4
         
         self.encoders = nn.ModuleList(encoders)
-
-    def padding(self, length, kernel_size, stride):
-
-        length = math.ceil(length)
-        length = math.ceil((length - kernel_size) / stride) + 1
-        length = max(length, 1)
-        length = (length - 1) * stride + kernel_size
-        length = int(math.ceil(length))
-        
-        return int(length)
-
-    def forward(self, x):
-        """
-            Input: [bn, feat, subband, time]
-        """
-        for enc in self.encoders:
-            x = enc(x)
-
-        return x
-
-class SubbandEncoder_submain_causal(nn.Module):
-  
-    def __init__(self, fullband_channel, subband_channel, kernel_size, stride, depth, head):
-        super().__init__()
-        encoders = []
-        self.next_subband = subband_channel
-        
-        for i in range(depth):
-            self.next_subband = ((self.padding(self.next_subband, kernel_size, stride) - (kernel_size-1) -1) // stride) + 1
-            print(self.next_subband)
-            enc_use_att = True if i == depth-1 else False
-            encoders.append(
-                Encoder2D_submain_causal(fullband_channel, fullband_channel, kernel_size, stride, self.next_subband, head, enc_use_att)
-            )
-            kernel_size, stride = kernel_size // 4,  stride// 4
-        
-        self.encoders = nn.ModuleList(encoders)
-        print(self.encoders)
-
 
     def padding(self, length, kernel_size, stride):
 

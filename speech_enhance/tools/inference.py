@@ -53,5 +53,5 @@ if __name__ == "__main__":
         print(f"use specified dataset_dir_list: {args.dataset_dir_list}, instead of in config")
         configuration["dataset"]["args"]["dataset_dir_list"] = args.dataset_dir_list
 
-    # main(configuration, checkpoint_path, output_dir)
-    main_filemode(configuration, checkpoint_path, args.dataset_dir_list[0], output_dir)
+    main(configuration, checkpoint_path, output_dir)
+    # main_filemode(configuration, checkpoint_path, args.dataset_dir_list[0], output_dir)

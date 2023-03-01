@@ -284,8 +284,6 @@ class Inferencer(BaseInferencer):
         amp = np.iinfo(np.int16).max
         enhanced = np.int16(0.8 * amp * enhanced / np.max(np.abs(enhanced)))
 
-        # sf.write(self.enhanced_dir / f"{name}.wav", enhanced, samplerate=self.acoustic_config["sr"])
-
         return enhanced
 
 if __name__ == '__main__':
