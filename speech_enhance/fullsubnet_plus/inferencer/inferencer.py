@@ -2,6 +2,8 @@ import torch
 import time
 import torch.nn.functional as F
 
+import numpy as np
+
 from audio_zen.acoustics.feature import mag_phase, drop_band
 from audio_zen.acoustics.mask import decompress_cIRM
 from audio_zen.inferencer.base_inferencer import BaseInferencer, tqdm
@@ -52,8 +54,10 @@ def cumulative_norm(input):
     return x
 
 class Inferencer(BaseInferencer):
-    def __init__(self, config, checkpoint_path, output_dir):
-        super().__init__(config, checkpoint_path, output_dir)
+    def __init__(self, config, checkpoint_path, output_dir, file_mode=False):
+        super().__init__(config, checkpoint_path, output_dir, file_mode)
+        assert self.inference_config["type"] in dir(self), f"Not implemented Inferencer type: {self.inference_config['type']}"
+        
 
     @torch.no_grad()
     def mag(self, noisy, inference_args):
@@ -267,11 +271,20 @@ class Inferencer(BaseInferencer):
         return enhanced.detach().squeeze(0).cpu().numpy()
 
     @torch.no_grad()
-    def time_domain(self, noisy, inference_args):
-        noisy = noisy.to(self.device)
-        enhanced = self.model(noisy)
-        return enhanced.detach().squeeze().cpu().numpy()
+    def inference_once(self, waveform):
+        inference_type = self.inference_config["type"]
+        inference_args = self.inference_config["args"]
 
+        waveform = torch.tensor([waveform])
+        enhanced, model_rtf = getattr(self, inference_type)(waveform.to(self.device), inference_args)
+
+        if abs(enhanced).any() > 1:
+            print(f"Warning: current enhanced sound is not in the range [-1, 1]")
+
+        amp = np.iinfo(np.int16).max
+        enhanced = np.int16(0.8 * amp * enhanced / np.max(np.abs(enhanced)))
+
+        return enhanced
 
 if __name__ == '__main__':
     a = torch.rand(10, 2, 161, 200)

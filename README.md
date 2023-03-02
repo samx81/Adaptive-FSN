@@ -1,9 +1,9 @@
 
-# FullSubNet+
+# Adaptive-FSN
 
-This Git repository for the official PyTorch implementation of **"[FullSubNet+: Channel Attention FullSubNet with Complex Spectrograms for Speech Enhancement](https://arxiv.org/abs/2203.12188)"**,  accepted by ICASSP 2022.
+This Git repository is for the official PyTorch implementation of **"[Adaptive-FSN: Integrating Full-Band Extraction and Adaptive Sub-Band Encoding for Monaural Speech Enhancement](https://ieeexplore.ieee.org/document/10023439/)"**,  accepted by SLT 2022.
 
-📜[[Full Paper](https://arxiv.org/pdf/2203.12188.pdf)] ▶[[Demo](https://hit-thusz-rookiecj.github.io/fullsubnet-plus.github.io/)] 💿[[Checkpoint](https://drive.google.com/file/d/1UJSt1G0P_aXry-u79LLU_l9tCnNa2u7C/view)]
+📜[[Full Paper](https://ieeexplore.ieee.org/document/10023439)] ▶[[Demo](#)] 💿[[Checkpoint](https://drive.google.com/file/d/1bnfapAm0OX6fiyDDL53OvwvKL_J8_yvk/view)]
 
 
 
@@ -11,7 +11,7 @@ This Git repository for the official PyTorch implementation of **"[FullSubNet+: 
 
 \- Linux or macOS 
 
-\- python>=3.6
+\- python>=3.8
 
 \- Anaconda or Miniconda
 
@@ -25,18 +25,17 @@ Install Anaconda or Miniconda, and then install conda and pip packages:
 
 ```shell
 # Create conda environment
-conda create --name speech_enhance python=3.6
+conda create --name speech_enhance python=3.8
 conda activate speech_enhance
 
 # Install conda packages
-# Check python=3.8, cudatoolkit=10.2, pytorch=1.7.1, torchaudio=0.7
-conda install pytorch torchvision torchaudio cudatoolkit=10.2 -c pytorch
-conda install tensorboard joblib matplotlib
+# For CUDA 10.2
+conda install pytorch==1.9.1 torchvision==0.10.1 torchaudio==0.9.1 cudatoolkit=10.2 -c pytorch
+# OR CUDA 11.3
+conda install pytorch==1.9.1 torchvision==0.10.1 torchaudio==0.9.1 cudatoolkit=11.3 -c pytorch -c conda-forge
 
 # Install pip packages
-# Check librosa=0.8
-pip install Cython
-pip install librosa pesq pypesq pystoi tqdm toml colorful mir_eval torch_complex
+pip install -r requirements.txt
 
 # (Optional) If you want to load "mp3" format audio in your dataset
 conda install -c conda-forge ffmpeg
@@ -49,17 +48,17 @@ conda install -c conda-forge ffmpeg
 Clone the repository:
 
 ```shell
-git clone https://github.com/hit-thusz-RookieCJ/FullSubNet-plus.git
-cd FullSubNet-plus
+git clone https://github.com/samx81/Adaptive-FSN.git
+cd Adaptive-FSN
 ```
 
-Download the [pre-trained checkpoint](https://drive.google.com/file/d/1UJSt1G0P_aXry-u79LLU_l9tCnNa2u7C/view), and input commands:
+Download the [pre-trained checkpoint](https://drive.google.com/file/d/1bnfapAm0OX6fiyDDL53OvwvKL_J8_yvk/view), and input commands:
 
 ```shell
 source activate speech_enhance
 python -m speech_enhance.tools.inference \
-  -C config/inference.toml \
-  -M $MODEL_DIR \
+  -C pretrained/inference_adaptive-fsn.toml \
+  -M $MODEL_PTH \
   -I $INPUT_DIR \
   -O $OUTPUT_DIR
 ```
@@ -71,34 +70,23 @@ python -m speech_enhance.tools.inference \
 ### Clone
 
 ```shell
-git clone https://github.com/hit-thusz-RookieCJ/FullSubNet-plus.git
-cd FullSubNet-plus
+git clone https://github.com/samx81/Adaptive-FSN.git
+cd Adaptive-FSN
 ```
-
-
 
 ### Data preparation
 
-#### Train data
+#### VCTK Training data
 
-Please prepare your data in the data dir as like:
+Please prepare your VCTK data in [scp format](https://kaldi-asr.org/doc/data_prep.html) like:
 
-- data/DNS-Challenge/DNS-Challenge-interspeech2020-master/
-- data/DNS-Challenge/DNS-Challenge-master/
+`<recording-id> <extended-filename>`
 
-and set the train dir in the script `run.sh`.
+Then specify the path in `config/train_vctk.toml`.
 
-Then:
+#### DNS Challenge Training & Testing Data
 
-```shell
-source activate speech_enhance
-bash run.sh 0   # peprare training list or meta file
-```
-
-#### Test data
-
-Please prepare your test cases dir like: `data/test_cases_<name>`, and set the test dir in the script `run.sh`.
-
+Please follow [FullSubNet-Plus Repo](https://github.com/hit-thusz-RookieCJ/FullSubNet-plus) to generate DNS Data.
 
 
 ### Training
@@ -109,7 +97,9 @@ Then you can run training:
 
 ```shell
 source activate speech_enhance
-bash run.sh 1   
+python -m speech_enhance.tools.train \
+        -C <config_path> \
+        -N <n_gpu=1> [-R (resume training)]
 ```
 
 
@@ -122,18 +112,10 @@ You can also run inference:
 
 ```shell
 source activate speech_enhance
-bash run.sh 2
+python speech_enhance\tools\inference.py \
+      -C config/inference.toml \
+      -M logs/<tag>/checkpoint/<best_model|latest_model>.tar
 ```
-
-Or you can just use `inference.sh`:
-
-```shell
-source activate speech_enhance
-bash inference.sh
-```
-
-
-
 
 
 ### Eval
@@ -141,7 +123,7 @@ bash inference.sh
 Calculating bjective metrics (SI_SDR, STOI, WB_PESQ, NB_PESQ, etc.) :
 
 ```shell
-bash metrics.sh
+bash custom_metrics.sh <exp_tag> <ref_dir> <enh_dir>
 ```
 
 Obtain subjective scores (DNS_MOS):

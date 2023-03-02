@@ -8,7 +8,6 @@ hop_length = 256
 [inferencer]
 path = "fullsubnet_plus.inferencer.inferencer.Inferencer"
 type = "mag_complex_full_band_crm_mask"
-# type = "full_band_crm_mask"
 [inferencer.args]
 n_neighbor = 15
 

@@ -1,0 +1,14 @@
+torch==1.9.1
+torchvision
+torchaudio
+librosa
+pypesq
+pystoi
+tqdm
+toml
+colorful
+mir_eval
+torch_complex
+Cython
+einops
+pysepm
