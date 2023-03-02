@@ -28,11 +28,9 @@ beta2 = 0.999
 [train_dataset]
 path = "fullsubnet.dataset.dataset_train.Dataset"
 [train_dataset.args]
-# clean_dataset = "train_data_fsn_dns_master/clean_book.txt"
 clean_dataset = "train_data_fsn_dns_master/clean_book.txt"
 clean_dataset_limit = false
 clean_dataset_offset = 0
-# noise_dataset = "train_data_fsn_dns_master/noise.txt"
 noise_dataset = "train_data_fsn_dns_master/noise.txt"
 noise_dataset_limit = false
 noise_dataset_offset = 0
@@ -41,7 +39,6 @@ pre_load_clean_dataset = false
 pre_load_noise = false
 pre_load_rir = false
 reverb_proportion = 0.75
-# rir_dataset = "train_data_fsn_dns_master/rir.txt"
 rir_dataset = "train_data_fsn_dns_master/rir.txt"
 rir_dataset_limit = false
 rir_dataset_offset = 0

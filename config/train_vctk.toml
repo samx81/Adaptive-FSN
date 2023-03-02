@@ -1,5 +1,5 @@
 [meta]
-save_dir = "logs/FullSubNet_plus_vctk_3573confomrer"
+save_dir = "logs/FullSubNet_plus_vctk"
 # save_dir = "logs/test"
 description = "This is a description of FullSubNet experiment."
 seed = 0  # set random seed for random, numpy, pytorch-gpu and pytorch-cpu
@@ -30,13 +30,11 @@ beta2 = 0.999
 path = "fullsubnet_plus.dataset.dataset_train_vctk.Dataset"
 [train_dataset.args]
 # clean_dataset = "train_data_fsn_dns_master/clean_book.txt"
-#clean_dataset = "train_data_fsn_dns_master/clean_book.txt"
-clean_dataset = "/share/nas167/samtsao/pj/enhance/FullSubNet/recipes/data/voicebank/tr/clean.scp"
+clean_dataset = ".../data/voicebank/tr/clean.scp"
 clean_dataset_limit = false
 clean_dataset_offset = 0
 # noise_dataset = "train_data_fsn_dns_master/noise.txt"
-#noise_dataset = "train_data_fsn_dns_master/noise.txt"
-noise_dataset = "/share/nas167/samtsao/pj/enhance/FullSubNet/recipes/data/voicebank/tr/noisy.scp"
+noise_dataset = ".../data/voicebank/tr/noisy.scp"
 noise_dataset_limit = false
 noise_dataset_offset = 0
 num_workers = 36
@@ -44,7 +42,6 @@ pre_load_clean_dataset = false
 pre_load_noise = false
 pre_load_rir = false
 reverb_proportion = 0.75
-# rir_dataset = "train_data_fsn_dns_master/rir.txt"
 rir_dataset = "train_data_fsn_dns_master/rir.txt"
 rir_dataset_limit = false
 rir_dataset_offset = 0
@@ -66,11 +63,11 @@ pin_memory = true
 [validation_dataset]
 path = "fullsubnet_plus.dataset.dataset_validation_vctk.Dataset"
 [validation_dataset.args]
-#dataset_dir_list = [
-#    "data/DNS-Challenge/DNS-Challenge-interspeech2020-master/datasets/test_set/synthetic/with_reverb/",
-#    "data/DNS-Challenge/DNS-Challenge-interspeech2020-master/datasets/test_set/synthetic/no_reverb/"
-#]
-dataset_dir_list ="/share/nas167/samtsao/pj/enhance/FullSubNet/recipes/data/voicebank/cv"
+# dataset_dir_list = [
+#     "data/DNS-Challenge/DNS-Challenge-interspeech2020-master/datasets/test_set/synthetic/with_reverb/",
+#     "data/DNS-Challenge/DNS-Challenge-interspeech2020-master/datasets/test_set/synthetic/no_reverb/"
+# ]
+dataset_dir_list =".../data/voicebank/cv"
 sr = 16000
 
 
@@ -81,7 +78,7 @@ sb_num_neighbors = 15
 fb_num_neighbors = 0
 num_freqs = 257
 look_ahead = 2
-sequence_model = "357Conformer"
+sequence_model = "LSTM"
 fb_output_activate_function = "ReLU"
 sb_output_activate_function = false
 channel_attention_model = "TSSE"
