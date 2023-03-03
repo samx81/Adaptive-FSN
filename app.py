@@ -13,9 +13,9 @@ import gdown
 sys.path.append(os.path.abspath(os.path.join("speech_enhance")))
 from audio_zen.utils import initialize_module
 
-cfg_path = "pretrained\\inference_adaptive-fsn.toml"
+cfg_path = "pretrained/inference_adaptive-fsn.toml"
 ckpt_url = "https://drive.google.com/u/2/uc?id=1bnfapAm0OX6fiyDDL53OvwvKL_J8_yvk"
-ckpt_path = "pretrained\\Adaptive-FSN_VCTK.tar"
+ckpt_path = "pretrained/Adaptive-FSN_VCTK.tar"
 
 def plot_wave(y, sr):
     fig, ax = plt.subplots()
@@ -49,15 +49,15 @@ model_type = st.selectbox("Model Selection",
 
 if st.button("Load"):
     if model_type == "Adaptive-FSN (VCTK)":
-        desire_model_path = "pretrained\\Adaptive-FSN_VCTK.tar"
-        desire_cfg_path   = "pretrained\\inference_adaptive-fsn.toml"
+        desire_model_path = "pretrained/Adaptive-FSN_VCTK.tar"
+        desire_cfg_path   = "pretrained/inference_adaptive-fsn.toml"
     if model_type == 'Adaptive-FSN (Magnitude) (DNSChallenge)':
-        desire_model_path = "pretrained\\Adaptive-Magnitude-FSN_DNS.tar"
-        desire_cfg_path   = "pretrained\\inference_adaptive_mag.toml"
+        desire_model_path = "pretrained/Adaptive-Magnitude-FSN_DNS.tar"
+        desire_cfg_path   = "pretrained/inference_adaptive_mag.toml"
         desire_model_url  = "https://drive.google.com/u/2/uc?id=1aMLP6CBNEM2BGCDburt1DxSYqHz4heig"
     if model_type == 'FullSubNet-Plus (VCTK)':
-        desire_model_path = "pretrained\\FullSubNet-Plus_VCTK.tar"
-        desire_cfg_path   = "pretrained\\inference_fsn.toml"
+        desire_model_path = "pretrained/FullSubNet-Plus_VCTK.tar"
+        desire_cfg_path   = "pretrained/inference_fsn.toml"
         desire_model_url  = "https://drive.google.com/u/2/uc?id=1o2bn2aJ5aYG4pMKsjQo8SigFABFDqdvF"
     if not Path(desire_model_path).exists():
         with st.spinner("Downloading model... this may take awhile! \n Don't stop it!"):
