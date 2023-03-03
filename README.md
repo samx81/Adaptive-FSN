@@ -1,6 +1,8 @@
 
 # Adaptive-FSN
+
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://samx81-adaptive-fsn-app-kipf9f.streamlit.app)
+
 This Git repository is for the official PyTorch implementation of **"[Adaptive-FSN: Integrating Full-Band Extraction and Adaptive Sub-Band Encoding for Monaural Speech Enhancement](https://ieeexplore.ieee.org/document/10023439/)"**,  accepted by SLT 2022.
 
 📜[[Full Paper](https://ieeexplore.ieee.org/document/10023439)] ▶[[Demo](https://samx81-adaptive-fsn-app-kipf9f.streamlit.app)] 💿[[Checkpoint](https://drive.google.com/file/d/1bnfapAm0OX6fiyDDL53OvwvKL_J8_yvk/view)]
