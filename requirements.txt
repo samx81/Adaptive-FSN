@@ -2,7 +2,7 @@ torch==1.9.1
 torchvision
 torchaudio
 librosa
-pypesq
+pypesq @ https://github.com/vBaiCai/python-pesq/archive/master.zip
 pystoi
 tqdm
 toml
