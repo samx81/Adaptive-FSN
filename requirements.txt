@@ -11,4 +11,5 @@ mir_eval
 torch_complex
 Cython
 einops
-pysepm @ https://github.com/schmiph2/pysepm/archive/master.zip 
+pysepm @ https://github.com/schmiph2/pysepm/archive/master.zip
+gdown
